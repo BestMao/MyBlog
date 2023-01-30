@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: brand
       text: 进来看看
-      link: /guide/what-is-vitepress
+      link: /frame/react/React 进阶实践指南(笔记)
     - theme: alt
       text: 我的GitHub
-      link: https://github.com/vuejs/vitepress
+      link: https://github.com/BestMao
 features:
   - icon: 🛠️
     title: 框架学习

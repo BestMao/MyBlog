@@ -1,10 +1,12 @@
+# React 进阶实践指南(笔记)
+
 <a name="nikRa"></a>
 
-# 认识 jsx
+## 认识 jsx
 
 <a name="Ku89f"></a>
 
-## jsx->dom 关键过程
+#### jsx->dom 关键过程
 
 - jsx
 
@@ -41,16 +43,16 @@ React.createElement(
 - 在 React 的 commit 阶段会把 React dom 变为真实的 dom 节点
   <a name="QFbU4"></a>
 
-## 文件里 React 引入问题
+#### 文件里 React 引入问题
 
 以前：babel 编译后，写的 jsx 会变成上述 React.createElement 形式，所以需要引入 React。<br />现在：babel 将 React 的方法放入自己的包中，所以无需引入。
 <a name="eawyt"></a>
 
-# 起源 Component
+## 起源 Component
 
 <a name="QyOK2"></a>
 
-## class 组件
+#### class 组件
 
 **构建源码**
 
@@ -74,7 +76,7 @@ Component.prototype.forceUpdate = function (callback) {
 **继承强化**<br />类组件可以使用 extends 进行父组件，并进行加强和定制化<br />**静态属性绑定**<br />当给 New 后的实例对象原型链绑定的方法和 class 内部的方法名相同时候，会优先去 class 内部的方法进行调用。
 <a name="uyvWW"></a>
 
-## funtion 组件
+#### funtion 组件
 
 ```javascript
 function Index() {
@@ -90,13 +92,13 @@ Index.number = 1; /* 绑定静态属性 */
 不要尝试给函数组件 prototype 绑定属性或方法，即使绑定了也没有任何作用，因为通过上面源码中 React 对函数组件的调用，是采用直接执行函数的方式，而不是通过 new 的方式。
 <a name="llHdJ"></a>
 
-## 区别
+#### 区别
 
 - 对于类组件来说，底层只需要实例化一次，实例中保存了组件的 state 等状态。对于每一次更新只需要调用 render 方法以及对应的生命周期就可以了。
 - 但是在函数组件中，每一次更新都是一次新的函数执行，一次函数组件的更新，里面的变量会重新声明。为了能让函数组件可以保存一些状态，执行一些副作用钩子，React Hooks 应运而生，它可以帮助记录 React 中组件的状态，处理一些额外的副作用。
   <a name="tS8qg"></a>
 
-## 5 种主流的通信方式
+#### 5 种主流的通信方式
 
 1. props 和 callback 方式
 2. ref 方式。
@@ -105,11 +107,11 @@ Index.number = 1; /* 绑定静态属性 */
 5. event bus 事件总线。
    <a name="LxAhk"></a>
 
-# 玄学 State
+## 玄学 State
 
 <a name="iUuHE"></a>
 
-## 类组件的 State
+#### 类组件的 State
 
 **setState 更新流程**
 
@@ -117,7 +119,7 @@ Index.number = 1; /* 绑定静态属性 */
 - 接下来 React 会从 fiber Root 根部 fiber 向下调和子节点，调和阶段将对比发生更新的地方，更新对比 expirationTime ，找到发生更新的组件，合并 state，然后触发 render 函数，得到新的 UI 视图层，完成 render 阶段。
 - 接下来到 commit 阶段，commit 阶段，替换真实 DOM ，完成此次更新流程。
 - 此时仍然在 commit 阶段，会执行 setState 中 callback 函数,如上的()=>{ console.log(this.state.number) }，到此为止完成了一次 setState 全过程。
-- ![image.png](https://cdn.nlark.com/yuque/0/2022/png/1350314/1641857179286-2cee6b8b-4b6b-476b-b60a-3025e3ca9a06.png#clientId=u38c057ec-24ca-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=472&id=uff5a7ded&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=742&originalType=binary&ratio=1&rotation=0&showTitle=false&size=154584&status=done&style=none&taskId=u231459aa-d3e3-4c08-8680-632fd5de78d&title=&width=371)
+- ![image.png](https://cdn.nlark.com/yuque/0/2022/png/1350314/1641857179286-2cee6b8b-4b6b-476b-b60a-3025e3ca9a06.png##clientId=u38c057ec-24ca-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=472&id=uff5a7ded&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=742&originalType=binary&ratio=1&rotation=0&showTitle=false&size=154584&status=done&style=none&taskId=u231459aa-d3e3-4c08-8680-632fd5de78d&title=&width=371)
 
 **setState 同步和异步更新问题**<br />[https://www.yuque.com/u1108243/uen87g/htyt6m](https://www.yuque.com/u1108243/uen87g/htyt6m)<br />**更新优先级**
 
@@ -126,7 +128,7 @@ Index.number = 1; /* 绑定静态属性 */
 - 更新优先级：flushSync 中的 setState **>** 正常执行上下文中 setState **>** setTimeout ，Promise 中的 setState
   <a name="Kd1z6"></a>
 
-## 函数组件中的 state
+#### 函数组件中的 state
 
 **变化监听**
 
@@ -140,7 +142,7 @@ Index.number = 1; /* 绑定静态属性 */
 - 当时 state 为对象时，需要重新传入新的对象，不然 setState 会因为前后对象引用地址相同而作为相同值
   <a name="L8GY6"></a>
 
-## 更新的异同处
+#### 更新的异同处
 
 同：
 
@@ -153,11 +155,11 @@ Index.number = 1; /* 绑定静态属性 */
 - setState 在底层处理逻辑上主要是和老 state 进行合并处理，而 useState 更倾向于重新赋值。
   <a name="On5Dw"></a>
 
-# 深入 props
+## 深入 props
 
 <a name="rw3kN"></a>
 
-## props 能传递内容
+#### props 能传递内容
 
 - 子组件渲染的数据
 - 父组件的回调函数
@@ -166,7 +168,7 @@ Index.number = 1; /* 绑定静态属性 */
 - 组件渲染函数
   <a name="L0PlT"></a>
 
-## props 充当的角色
+#### props 充当的角色
 
 - **在 React 组件层级 props 充当的角色**
 
@@ -181,35 +183,35 @@ Index.number = 1; /* 绑定静态属性 */
 React 可以把组件的闭合标签里的插槽，转化成 Children 属性，一会将详细介绍这个模式。
 <a name="DrXYk"></a>
 
-## props 注入方式
+#### props 注入方式
 
 - 显示注入，直接在 dom 上添加属性
 - 隐式注入，通过 React.cloneElement 对 props.chidren 克隆再混入新的 props 。
 
 <a name="XQ40T"></a>
 
-## From 组件例子
+#### From 组件例子
 
 - 合理将 input change 事件和 from setValue 数据结合起来。
 - 使用 cloneElement 注入相关的 props 给子组件。
   <a name="ZGHkP"></a>
 
-# 多功能 Ref
+## 多功能 Ref
 
 <a name="TEcLe"></a>
 
-## 获取 Ref 方法
+#### 获取 Ref 方法
 
 - ref="string"，在类组件中，会将 ref 放入 this.refs 中。
 - ref={ ( node ) => { ... } }，ref 会作为参数返回，给与函数使用。
 - ref={ nodeRef }，类组件使用 createRef 创建变量，函数组件使用 useRef 创建变量，存在 nodeRef.current 中。
   <a name="X390r"></a>
 
-## forwardRef 转发 Ref
+#### forwardRef 转发 Ref
 
 <a name="NnCkT"></a>
 
-### 跨组件传递
+###### 跨组件传递
 
 由于 ref 是不能作为 props 参数进行传递，需要使用 forwardRef 包一层进行传递。
 
@@ -247,7 +249,7 @@ class GrandFather extends React.Component {
   }
   node = null;
   componentDidMount() {
-    console.log(this.node); // span #text 这个是想要获取元素
+    console.log(this.node); // span ##text 这个是想要获取元素
   }
   render() {
     return (
@@ -262,28 +264,28 @@ class GrandFather extends React.Component {
 ps：经过 forwardRef 转发后，在 GrandFather 传递的 ref 就会转化成 Fatehr 中的 grandRef 传给孙组件，给孙组件赋值，在爷组件获取。
 <a name="iKtZL"></a>
 
-### 合并转发 ref
+###### 合并转发 ref
 
 在子组件获取转化的 ref 对象，可以对他的 ref.current 进行修改，决定返回上层组件的内容。
 <a name="GV79o"></a>
 
-### 高阶组件转发
+###### 高阶组件转发
 
 如果通过高阶组件包裹一个原始类组件，就会产生一个问题，如果高阶组件 HOC 没有处理 ref ，那么由于高阶组件本身会返回一个新组件，所以当使用 HOC 包装后组件的时候，标记的 ref 会指向 HOC 返回的组件，而并不是 HOC 包裹的原始类组件，为了解决这个问题，forwardRef 可以对 HOC 做一层处理。
 <a name="Zwa4k"></a>
 
-## ref 通信
+#### ref 通信
 
 <a name="f3Ri5"></a>
 
-### 类组件 ref
+###### 类组件 ref
 
 类组件可以通过 ref 获取到的组件，使用 ref 调用组件实例内部的方法。
 <a name="HTV8v"></a>
 
-### 函数组件 forwardRef + useImperativeHandle
+###### 函数组件 forwardRef + useImperativeHandle
 
-由于函数组件没有实例，需要通过 forwardRef 转发和子组件使用 useImperativeHandle 传出 ref 内容。<br />![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1641976539234-5ed2224b-47d1-48f6-89b0-625702304131.webp#clientId=u16d6659d-697c-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=uf9e606e7&margin=%5Bobject%20Object%5D&originHeight=782&originWidth=604&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=ua4b4b7d8-2fd6-4c78-be86-a85173df7f3&title=)
+由于函数组件没有实例，需要通过 forwardRef 转发和子组件使用 useImperativeHandle 传出 ref 内容。<br />![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1641976539234-5ed2224b-47d1-48f6-89b0-625702304131.webp##clientId=u16d6659d-697c-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=uf9e606e7&margin=%5Bobject%20Object%5D&originHeight=782&originWidth=604&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=ua4b4b7d8-2fd6-4c78-be86-a85173df7f3&title=)
 
 ```javascript
 // 子组件
@@ -326,16 +328,16 @@ class Index extends React.Component{
 
 <a name="Tscnz"></a>
 
-### 函数组件缓存数据
+###### 函数组件缓存数据
 
 在函数组件中，每次 render 都会重新赋值函数内部的变量，使用 useState 可以记录数据，但是每次变化都会引起 render，对于不需要改变时重新渲染，但是又要记录数据的可以存储在 useRef 中。
 <a name="siCLg"></a>
 
-## ref 原理
+#### ref 原理
 
 <a name="vvAuH"></a>
 
-### ref 首次处理
+###### ref 首次处理
 
 ref 处理方法有 commitDetachRef 和 commitArrachRef，分别在 commit 的 mutation 和 layout 阶段。
 
@@ -383,7 +385,7 @@ function commitAttachRef(finishedWork: Fiber) {
 
 <a name="gVpuX"></a>
 
-### ref 跟新
+###### ref 跟新
 
 - commitDetachRef 调用时机
 
@@ -428,7 +430,7 @@ function markRef(current: Fiber | null, workInProgress: Fiber) {
 
 <a name="QcSjJ"></a>
 
-### ref 卸载
+###### ref 卸载
 
 ```javascript
 function safelyDetachRef(current) {
@@ -446,11 +448,11 @@ function safelyDetachRef(current) {
 
 <a name="qULM4"></a>
 
-## 提供者 context
+#### 提供者 context
 
 <a name="luot2"></a>
 
-### createContext
+###### createContext
 
 ```javascript
 const ThemeContext = React.createContext(null); //
@@ -460,13 +462,13 @@ const ThemeConsumer = ThemeContext.Consumer; // 订阅消费者
 
 <a name="XWNCo"></a>
 
-### 提供者
+###### 提供者
 
 ```javascript
 const ThemeProvider = ThemeContext.Provider; //提供者
 export default function ProviderDemo() {
   const [contextValue, setContextValue] = React.useState({
-    color: "#ccc",
+    color: "##ccc",
     background: "pink",
   });
   return (
@@ -481,11 +483,11 @@ export default function ProviderDemo() {
 
 <a name="Vcs5x"></a>
 
-### 消费者
+###### 消费者
 
 <a name="tdDB6"></a>
 
-#### 类组件之 contextType 方式
+######## 类组件之 contextType 方式
 
 ```javascript
 const ThemeContext = React.createContext(null);
@@ -503,7 +505,7 @@ const Son = () => <ConsumerDemo />;
 
 <a name="Kn3jK"></a>
 
-#### 函数组件之 useContext 方式
+######## 函数组件之 useContext 方式
 
 ```javascript
 const ThemeContext = React.createContext(null);
@@ -518,7 +520,7 @@ const Son = () => <ConsumerDemo />;
 
 <a name="yYaSX"></a>
 
-#### 订阅者之 Consumer 方式
+######## 订阅者之 Consumer 方式
 
 ```javascript
 const ThemeConsumer = ThemeContext.Consumer; // 订阅消费者
@@ -537,16 +539,16 @@ const Son = () => (
 
 <a name="XLPmG"></a>
 
-# 模块化 CSS
+## 模块化 CSS
 
 <a name="ci4Kq"></a>
 
-## CSS Modules
+#### CSS Modules
 
 加载后会添加一段 hash 乱码，避免样式名重复
 <a name="gXlis"></a>
 
-### 基本使用
+###### 基本使用
 
 - css-loader 配置
 
@@ -580,7 +582,7 @@ export default () => (
 
 <a name="pCbNO"></a>
 
-### 自定义命名规则
+###### 自定义命名规则
 
 ```javascript
 {
@@ -600,7 +602,7 @@ export default () => (
 
 <a name="WVYaM"></a>
 
-### 全局变量
+###### 全局变量
 
 ```javascript
 .text{
@@ -624,11 +626,11 @@ export default () => (
 
 <a name="tt7L2"></a>
 
-## CSS IN JS
+#### CSS IN JS
 
 <a name="bRwTL"></a>
 
-### 基本使用
+###### 基本使用
 
 ```javascript
 import React from "react";
@@ -661,14 +663,14 @@ export default {
 
 <a name="y6ZsD"></a>
 
-### style-components 库使用
+###### style-components 库使用
 
 ```javascript
 import styled from "styled-components";
 /* 给button标签添加样式，形成 Button React 组件 */
 const Button = styled.button`
-  background: #6a8bad;
-  color: #fff;
+  background: ##6a8bad;
+  color: ##fff;
   min-width: 96px;
   height: 36px;
   border: none;
@@ -689,16 +691,16 @@ export default function Index() {
 
 <a name="g9bkt"></a>
 
-# 高阶组件
+## 高阶组件
 
 高阶函数就是一个将函数作为参数并且返回值也是函数的函数。高阶组件是以组件作为参数，返回组件的函数。返回的组件把传进去的组件进行功能强化。
 <a name="I6iIL"></a>
 
-## 高阶组件类型
+#### 高阶组件类型
 
 <a name="zdxmo"></a>
 
-### 属性代理
+###### 属性代理
 
 属性代理，就是用组件包裹一层代理组件，在代理组件上，可以做一些，对源组件的强化操作。这里注意属性代理返回的是一个新组件，被包裹的原始组件，将在新的组件里被挂载。<br />优点：
 
@@ -713,7 +715,7 @@ export default function Index() {
 - 本质上是产生了一个新组件，所以需要配合 forwardRef 来转发 ref
   <a name="rswjm"></a>
 
-### 反向继承
+###### 反向继承
 
 属性代理，是将 HOC 的内容加强进入源组件，而反向继承时 HOC 通过 extends 继承原组件，然后在内部进行定制处理，包装后的组件继承了原始组件本身，所以此时无须再去挂载业务组件。<br />优点：
 
@@ -727,7 +729,7 @@ export default function Index() {
 - HOC 会因为继承的顺序发生覆盖关系
   <a name="HRb63"></a>
 
-## 高阶组件作用
+#### 高阶组件作用
 
 - **强化 props**
 - **渲染劫持**
@@ -796,16 +798,16 @@ export default () => {
 
 <a name="fJ82O"></a>
 
-## 注意事项
+#### 注意事项
 
 <a name="JBuKq"></a>
 
-### 谨慎修改原型链
+###### 谨慎修改原型链
 
 如：如果直接修改原型链上的 componentDidMount 生命周期函数，等下个 HOC 也是直接操作原型链的化就会将之前的覆盖点。（原来的效果是对 componentDidMount 的 HOC 都在累加在 componentDidMount 方法执行）
 <a name="rg6wj"></a>
 
-### 不要在函数组件内部或类组件 render 函数中使用 HOC
+###### 不要在函数组件内部或类组件 render 函数中使用 HOC
 
 ```javascript
 function Index() {
@@ -824,12 +826,12 @@ class Index extends React.Component {
 这么写的话每一次类组件触发 render 或者函数组件执行都会产生一个新的 WrapHome，react diff 会判定两次不是同一个组件，那么就会卸载老组件，重新挂载新组件，老组件内部的真实 DOM 节点，都不会合理的复用，从而造成了性能的浪费，而且原始组件会被初始化多次。
 <a name="XO8tR"></a>
 
-### 多个 HOC 嵌套顺序问题
+###### 多个 HOC 嵌套顺序问题
 
 多个 HOC 嵌套，应该留意一下 HOC 的顺序，还要分析出要各个 HOC 之间是否有依赖关系。
 <a name="X46uz"></a>
 
-### 继承静态属性
+###### 继承静态属性
 
 上述讲到在属性代理 HOC 本质上返回了一个新的 component ，那么如果给原来的 component 绑定一些静态属性方法，如果不处理，新的 component 上就会丢失这些静态属性方法。
 
@@ -863,21 +865,21 @@ function HOC(Component) {
 
 <a name="HlspT"></a>
 
-# 渲染控制
+## 渲染控制
 
 渲染基本执行：<br />类组件 render、函数组件执行 renderWithHooks<br />渲染过程：<br />通过 render 生成 Reeac.Element，在 commit 阶段转化成真是 dom 挂在<br />渲染执行原因：<br />通过 diff 算法，判断组件是否需要更新，执行 render，所以优化渲染控制就从减少不必要的 render 执行开始
 <a name="GylPP"></a>
 
-## 控制 render 的方法
+#### 控制 render 的方法
 
 <a name="dhCd4"></a>
 
-### 缓存 React.element 对象
+###### 缓存 React.element 对象
 
 这是一种减少因为父组件执行 render 而造成子组件进行不必要的渲染
 <a name="BxuqF"></a>
 
-#### 类组件
+######## 类组件
 
 - 将子组件保存在实例 this 中
 - 将子组件写成函数返回，在每次 render 过程中，通过自己的判断决定是否更新子组件
@@ -925,7 +927,7 @@ export default class Index extends React.Component {
 
 <a name="tVxon"></a>
 
-#### 函数组件
+######## 函数组件
 
 使用 useMemo
 
@@ -938,11 +940,11 @@ const cacheSomething = useMemo(create, deps);
 
 <a name="HhIrO"></a>
 
-## 自身优化渲染
+#### 自身优化渲染
 
 <a name="FIVPT"></a>
 
-### 类组件
+###### 类组件
 
 1、使用 PureComponent 继承创建类组件，默认会浅比较 state 和 props，进行判断是否渲染。<br />**原理：**
 
@@ -986,7 +988,7 @@ function checkShouldComponentUpdate() {
 
 <a name="RcrIc"></a>
 
-### 函数组件
+###### 函数组件
 
 ```javascript
 React.memo(Component, compare);
@@ -1014,14 +1016,14 @@ function updateMemoComponent() {
 }
 ```
 
-![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642058042708-c804d3c5-cd66-4904-b677-288150b52b5d.webp#clientId=uee2bacbd-05d6-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=ue2ca6ddc&margin=%5Bobject%20Object%5D&originHeight=1590&originWidth=2336&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u849e8521-8ff7-40a1-97ca-89824976f79&title=)
+![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642058042708-c804d3c5-cd66-4904-b677-288150b52b5d.webp##clientId=uee2bacbd-05d6-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=ue2ca6ddc&margin=%5Bobject%20Object%5D&originHeight=1590&originWidth=2336&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u849e8521-8ff7-40a1-97ca-89824976f79&title=)
 <a name="Dx2X5"></a>
 
-# 渲染调优
+## 渲染调优
 
 <a name="dS3oi"></a>
 
-## 异步渲染 suspense
+#### 异步渲染 suspense
 
 ```javascript
 // 子组件
@@ -1046,10 +1048,10 @@ export default function Index() {
 2. 抛出 Promise 后会中断渲染，使用 fallback 代替渲染内容
 3. 执行到 promise.then 后获取到数据再继续经行渲染
 
-![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642121209426-1af818d0-d3a8-4c1a-ac69-5237ffaf29f4.webp#clientId=ubde56c77-7585-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=u8d93520c&margin=%5Bobject%20Object%5D&originHeight=926&originWidth=1094&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=udcd38768-02cb-4f3a-8bff-adfd2427680&title=)
+![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642121209426-1af818d0-d3a8-4c1a-ac69-5237ffaf29f4.webp##clientId=ubde56c77-7585-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=u8d93520c&margin=%5Bobject%20Object%5D&originHeight=926&originWidth=1094&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=udcd38768-02cb-4f3a-8bff-adfd2427680&title=)
 <a name="MGtiS"></a>
 
-## 动态加载 React.lazy
+#### 动态加载 React.lazy
 
 ```javascript
 const LazyComponent = React.lazy(() => import("./text"));
@@ -1101,21 +1103,21 @@ function lazy(ctor) {
 
 - 这个异常 Promise 会被 Suspense 捕获到，Suspense 会处理 Promise ，Promise 执行成功回调得到 defaultExport（将想要渲染组件），然后 Susponse 发起第二次渲染，第二次 init 方法已经是 Resolved 成功状态，那么直接返回 result 也就是真正渲染的组件。这时候就可以正常渲染组件了。
 
-![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642121483275-5703997c-00db-4dab-9753-c84f42db71b0.webp#clientId=ubde56c77-7585-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=uf753d366&margin=%5Bobject%20Object%5D&originHeight=964&originWidth=1254&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uff26d824-0727-459c-b9aa-ebfba75d463&title=)
+![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642121483275-5703997c-00db-4dab-9753-c84f42db71b0.webp##clientId=ubde56c77-7585-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=uf753d366&margin=%5Bobject%20Object%5D&originHeight=964&originWidth=1254&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uff26d824-0727-459c-b9aa-ebfba75d463&title=)
 <a name="smgKT"></a>
 
-# 事件原理
+## 事件原理
 
 <a name="defjU"></a>
 
-## 结论
+#### 结论
 
 1. 给元素绑定的事件，不是真正的事件处理函数。
 2. 在冒泡/捕获阶段绑定的事件，也不是在冒泡/捕获阶段执行的。
 3. 甚至在事件处理函数中拿到的事件源 e ，也不是真正的事件源 e 。
    <a name="NKMVc"></a>
 
-## 事件合成
+#### 事件合成
 
 - 在元素上挂着的 onClick 等事件都不会直接绑定在元素上。
 - React 通过自身的事件插件机制将事件处理元素 props 上绑定的事件
@@ -1147,7 +1149,7 @@ const registrationNameModules = {
 
 <a name="cyWzv"></a>
 
-## 事件绑定
+#### 事件绑定
 
 - props 属性上的事件都会存在在 fiber 上的 memoizedProps 属性上
 - 注册事件监听器，绑定在 document 上
@@ -1173,7 +1175,7 @@ function legacyListenToEvent(registrationName，mountAt){
 
 <a name="jXykr"></a>
 
-## 事件触发
+#### 事件触发
 
 - 只要是 React 事件触发，首先执行的就是 dispatchEvent
 
@@ -1206,22 +1208,22 @@ function runEventsInBatch() {
 
 <a name="DNtEv"></a>
 
-# 路由
+## 路由
 
 <a name="w7l2i"></a>
 
-## 组件封装关系
+#### 组件封装关系
 
-![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642640186071-a9312852-ebbc-4760-b214-fe0f4624d083.webp#clientId=u0971716f-d2e6-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=ufa2e7583&margin=%5Bobject%20Object%5D&originHeight=860&originWidth=944&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uc63f93b5-ce3d-427c-9142-78d4099fa1e&title=)
+![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642640186071-a9312852-ebbc-4760-b214-fe0f4624d083.webp##clientId=u0971716f-d2e6-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=ufa2e7583&margin=%5Bobject%20Object%5D&originHeight=860&originWidth=944&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uc63f93b5-ce3d-427c-9142-78d4099fa1e&title=)
 <a name="e6Inv"></a>
 
-## 组件原理和作用
+#### 组件原理和作用
 
 <a name="WSsSK"></a>
 
-### Router
+###### Router
 
-![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642640388293-60b3f7ee-4d34-4abf-9ff1-eb75ec7c0105.webp#clientId=u0971716f-d2e6-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=u2fde2ad4&margin=%5Bobject%20Object%5D&originHeight=1164&originWidth=978&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uf1b4908e-d53e-4378-ad73-aae7e92d787&title=)
+![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642640388293-60b3f7ee-4d34-4abf-9ff1-eb75ec7c0105.webp##clientId=u0971716f-d2e6-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=u2fde2ad4&margin=%5Bobject%20Object%5D&originHeight=1164&originWidth=978&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uf1b4908e-d53e-4378-ad73-aae7e92d787&title=)
 
 ```javascript
 // 简易版（history模式）
@@ -1277,7 +1279,7 @@ export default function Router(props) {
 - 提供 RouterContext，包含 history、location、mthc（匹配方式）给后代组件使用
   <a name="WIVQl"></a>
 
-### Route
+###### Route
 
 ```javascript
 import React, { useContext } from "react";
@@ -1332,7 +1334,7 @@ export default Route;
 - 为了让 Route 的子组件访问到当前 Route 的信息，所以要选择通过 Provider 逐层传递的特点，再一次传递当前 Route 的信息，这样也能够让嵌套路由更简单的实现
   <a name="fza45"></a>
 
-### Switch
+###### Switch
 
 ```javascript
 import React, { useContext } from "react";
@@ -1368,11 +1370,11 @@ export default function Switch(props) {
 - 通过 React.Children.forEach 遍历子 Route，然后通过 matchPath 进行匹配，如果匹配到组件，将克隆组件，混入 computedMatch，location 等信息
   <a name="xCm60"></a>
 
-## hookApi
+#### hookApi
 
 <a name="sthTV"></a>
 
-### useHistory
+###### useHistory
 
 ```javascript
 import { useContext } from "react";
@@ -1385,7 +1387,7 @@ export default function useHistory() {
 
 <a name="ruDst"></a>
 
-### useLocation
+###### useLocation
 
 ```javascript
 import { useContext } from "react";
@@ -1398,7 +1400,7 @@ export default function useLocation() {
 
 <a name="kLnC0"></a>
 
-### useListen
+###### useListen
 
 ```javascript
 import { useEffect } from "react";
@@ -1422,7 +1424,7 @@ export default useListen;
 
 <a name="MdL9z"></a>
 
-### withRouter
+###### withRouter
 
 ```javascript
 import React , { useContext } from 'react'
@@ -1447,6 +1449,6 @@ export default function withRouter(Component){
 - 通过 hoist-non-react-statics 继承原始组件的静态属性
   <a name="usRX2"></a>
 
-## 路由更新流程图
+#### 路由更新流程图
 
-![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642642245833-a688102b-493f-449f-9e18-196c1896951c.webp#clientId=u0971716f-d2e6-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=u92a04d83&margin=%5Bobject%20Object%5D&originHeight=1346&originWidth=2396&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u728cd8e0-93aa-498f-b60c-ea73aeefeda&title=)
+![](https://cdn.nlark.com/yuque/0/2022/webp/1350314/1642642245833-a688102b-493f-449f-9e18-196c1896951c.webp##clientId=u0971716f-d2e6-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=u92a04d83&margin=%5Bobject%20Object%5D&originHeight=1346&originWidth=2396&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u728cd8e0-93aa-498f-b60c-ea73aeefeda&title=)
