@@ -2,7 +2,7 @@
  * @Author: mao 936137804@qq.com
  * @Date: 2023-01-30 09:04:15
  * @LastEditors: mao 936137804@qq.com
- * @LastEditTime: 2023-01-31 17:11:02
+ * @LastEditTime: 2023-02-01 17:09:14
  * @FilePath: /myBlog/docs/.vitepress/config.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -56,6 +56,10 @@ export default {
                 {
                     text: '准备工作（源码）',
                     link: "/frame/vue/准备工作（源码）"
+                },
+                {
+                    text: '组件化（源码）',
+                    link: "/frame/vue/组件化（源码）"
                 }
             ]
         },
