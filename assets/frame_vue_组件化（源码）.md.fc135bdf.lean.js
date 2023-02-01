@@ -1,0 +1,1 @@
+import{_ as s,c as n,o as a,a as l}from"./app.ab78565a.js";const i=JSON.parse('{"title":"createComponent","description":"","frontmatter":{},"headers":[],"relativePath":"frame/vue/组件化（源码）.md"}'),p={name:"frame/vue/组件化（源码）.md"},o=l("",65),e=[o];function t(c,r,y,F,D,A){return a(),n("div",null,e)}const f=s(p,[["render",t]]);export{i as __pageData,f as default};
